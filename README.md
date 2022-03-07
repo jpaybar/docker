@@ -1,2 +1,2 @@
 # Docker
-Dockerfile examples
+Dockerfile and docker-compose.yml examples
