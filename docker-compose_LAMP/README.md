@@ -209,11 +209,9 @@ docker-compose down
 
 Open phpmyadmin at [http://localhost:8000](http://localhost:8000)
 
-![phpmyadmin.PNG](C:\Users\adm_payanjuanm\Desktop\phpmyadmin.PNG)
 
 Open web browser to look at a simple php example at [http://localhost:80](http://localhost:80)
 
-![aap.PNG](C:\Users\adm_payanjuanm\Desktop\aap.PNG)
 
 Run MySQL client as `root`:
 
