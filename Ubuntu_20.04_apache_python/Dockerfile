@@ -6,7 +6,8 @@ ENV http_proxy="http://10.40.56.3:8080"
 ENV https_proxy="http://10.40.56.3:8080"
 EXPOSE 80/tcp
 ARG DEBIAN_FRONTEND=noninteractive	#Evita el frontend de configuración de paquetes(ej:apache2)
-RUN apt-get update 
-RUN apt-get install -y python3
-RUN apt-get install -y apache2
+RUN apt-get update && apt-get install -y \ 
+  python3 \
+  apache2 \
+  && rm -rf /var/lib/apt/lists/*
 CMD ["apachectl", "-D", "FOREGROUND"]
