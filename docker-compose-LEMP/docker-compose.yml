@@ -1,0 +1,58 @@
+# https://docs.docker.com/compose/compose-file/compose-file-v3/
+version: "3.7"
+services:
+  nginx:
+    image: nginx:latest
+    container_name: "${APP_NAME:?err}-nginx"
+    ports:
+      - 80:80
+      - 443:443
+    restart: on-failure
+    links:
+      - php
+    volumes:
+      - ./services/nginx/app:/var/www/html
+      - ./services/nginx/config:/etc/nginx/conf.d
+      
+  php:
+    # PHP image: 'php:7.4-fpm'
+    build:
+      context: ./services/php
+      dockerfile: php.Dockerfile
+    container_name: "${APP_NAME:?err}-php"
+    volumes:
+      - ./services/nginx/app:/var/www/html
+    depends_on:
+      - mysql
+    
+  mysql:
+    image: "mysql:${MYSQL_VERSION}"
+    container_name: "${APP_NAME:?err}-mysql"
+    ports: 
+      - 3306:3306
+    #command: --default-authentication-plugin=mysql_native_password
+    restart: on-failure
+    #env_file:
+      #- ./mysql.env
+    environment:
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}" 
+    volumes:
+      - ./services/mysql/dbname.sql:/docker-entrypoint-initdb.d/dbname.sql
+      #- ./services/mysql/config/my_personalizada.cnf:/etc/mysql/conf.d/my_personalizada.cnf
+      - mysql-data:/var/lib/mysql
+      
+  phpmyadmin:
+    image: "phpmyadmin/phpmyadmin:${PHPMYADMIN_VERSION}"
+    container_name: "${APP_NAME:?err}-phpmyadmin"
+    links: 
+      - mysql
+    ports:
+      - 8000:80
+    environment:
+      PMA_HOST: mysql
+      
+volumes:
+  mysql-data:
