@@ -6,7 +6,7 @@ st4rt.fr0m.scr4tch@gmail.com
 
 Docker Compose is a tool that allows one to declare which Docker containers should run, and which relationships should exist between them. It follows the <u>infrastructure as code</u> approach, just like most automation software.
 
-This `docker-compose.yml` file configures four services to use the LEMP stack. The `php` service customizes a Docker Hub image (php:7.4-fpm) using a `php.Dockerfile` and the `nginx` service starts Nginx webserver at latest version. The next service is `mysql`, a container with the MySQL image, the version can be modified in the variables file `.env`. And finally we start `phpMyAdmin` service to have a graphical environment and be able to manage our database.
+This `docker-compose.yml` file configures four services to use the LEMP stack. The `php` service customizes a Docker Hub image (php:7.4-fpm) using a `php.Dockerfile` and the `nginx` service starts Nginx webserver at latest version. The next service is `mysql`, a container with the MySQL image, the version can be modified in the variables file `.env`(It is necessary to rename the test.env file to .env once the project folder is downloaded so that the "docker-compose.yml" file reads the environment variables, github or the .gitignore file excludes the upload of .env files by security reasons). And finally we start `phpMyAdmin` service to have a graphical environment and be able to manage our database.
 
 ## Project folder:
 
