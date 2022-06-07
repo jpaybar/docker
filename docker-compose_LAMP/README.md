@@ -15,7 +15,6 @@ linuxuser@localhost:~/DOCKER/LAMP$ tree -a
 .
 ├── .env
 ├── README.md
-├── config
 ├── docker-compose.yml
 └── servicios
     ├── db
