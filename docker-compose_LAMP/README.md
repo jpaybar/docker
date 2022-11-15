@@ -152,7 +152,7 @@ docker-compose ls
 docker-compose ps
 ```
 
-![status_containers.png](/home/juanma/docker-compose_LAMP/images/status_containers.png)
+![status_containers.png](https://github.com/jpaybar/Docker/blob/main/docker-compose_LAMP/images/status_containers.png)
 
 Normally `docker-compose up` starts the containers. To create them without starting them, add the `--no-start` option. To restart containers without recreating them:
 
@@ -224,11 +224,11 @@ docker-compose down
 
 Open phpmyadmin at [http://localhost:8000](http://localhost:8000)
 
-![phpmyadmin.png](/home/juanma/docker-compose_LAMP/images/phpmyadmin.png)
+![phpmyadmin.png](https://github.com/jpaybar/Docker/blob/main/docker-compose_LAMP/images/phpmyadmin.png)
 
 Open web browser to look at a simple php example at [http://localhost:80](http://localhost:80)
 
-![app_web.png](/home/juanma/docker-compose_LAMP/images/app_web.png)
+![app_web.png](https://github.com/jpaybar/Docker/blob/main/docker-compose_LAMP/images/app_web.png)
 
 ## **NOTE:**
 
