@@ -1,8 +1,6 @@
 # https://docs.docker.com/compose/compose-file/compose-file-v3/
 # https://hub.docker.com/_/wordpress
-# https://kompose.io/
-# https://github.com/kubernetes/kompose
-# kompose convert -f docker-compose.yml
+# https://hub.docker.com/_/mysql
 
 version: "3.8"
 
