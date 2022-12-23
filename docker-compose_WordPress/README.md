@@ -114,7 +114,7 @@ root@5ca9a4151799:/# env
 
 Open web browser to look at a simple php example at [http://localhost](http://localhost/)
 
-![install_wordpress.PNG](C:\LABO\vagrant\DOCKER\docker-compose_WordPress\_images\install_wordpress.PNG)
+![install_wordpress.PNG](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress/_images/install_wordpress.PNG)
 
 
 
