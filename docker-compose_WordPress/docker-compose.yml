@@ -1,0 +1,56 @@
+# https://docs.docker.com/compose/compose-file/compose-file-v3/
+# https://hub.docker.com/_/wordpress
+# https://kompose.io/
+# https://github.com/kubernetes/kompose
+# kompose convert -f docker-compose.yml
+
+version: "3.8"
+
+services:
+  wordpress:
+    image: wordpress:latest
+    secrets:
+      - db-password
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      - 80:80
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: user
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/db-password
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wordpress:/var/www/html
+    networks:
+      - WP_MySQL_network
+    
+  mysql:
+    image: mysql:latest
+    secrets:
+      - db-password
+    restart: always
+    ports:
+      - 3306
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: user
+      MYSQL_PASSWORD_FILE: /run/secrets/db-password
+      MYSQL_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - mysql:/var/lib/mysql
+    networks:
+      - WP_MySQL_network
+      
+secrets:
+  db-password:
+    file: ./db-password.txt
+      
+networks:
+  WP_MySQL_network:
+    driver: bridge
+
+volumes:
+  wordpress:
+  mysql:
