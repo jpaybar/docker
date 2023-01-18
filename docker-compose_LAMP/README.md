@@ -234,7 +234,7 @@ Open web browser to look at a simple php example at [http://localhost:80](http:/
 
 `If we are running Docker in a VM (VirtualBox, Minikube, etc...)` we will have to do port forwarding on the NAT card. For example, in our `docker-compose.yaml` the `www` service maps port `80:80 (host:container)`, `so we will map the host's port 80 to the same port in the VirtualBox NAT adapter`. In the `phpmyadmin` service, the port mapping in the `docker-compose.yaml` file is `8000:80 (host:container)`, therefore `we will map port 8000 to 8000 in the VirtualBox NAT adapter`. We can see an example in the following screenshot .
 
-![virtualbox_portforwarding.PNG](C:\Users\adm_payanjuanm\Downloads\Docker-main\docker-compose_LAMP\images\virtualbox_portforwarding.PNG)
+![virtualbox_portforwarding.PNG](https://github.com/jpaybar/Docker/blob/main/docker-compose_LAMP/images/virtualbox_portforwarding.PNG)
 
 
 
