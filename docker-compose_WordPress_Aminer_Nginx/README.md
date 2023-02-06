@@ -46,7 +46,7 @@ podremos acceder a nuestro `WordPress` en la URL:
 http://localhost
 ```
 
-![localhost.PNG](C:\LABO\vagrant\DOCKER\docker-compose_WordPress_Aminer_Nginx\_images\localhost.PNG)
+![localhost.PNG](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/localhost.PNG)
 
 Igualmente para `Adminer` en la URL:
 
@@ -54,7 +54,7 @@ Igualmente para `Adminer` en la URL:
 http://localhost:8000
 ```
 
-![localhost_8000.PNG](C:\LABO\vagrant\DOCKER\docker-compose_WordPress_Aminer_Nginx\_images\localhost_8000.PNG)
+![localhost_8000.PNG](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/localhost_8000.PNG)
 
 Como podemos observar tanto el acceso a `WordPress` como a `Adminer` no estan securizados, además de tener que escribir en la URL el puerto. Para simplificar el acceso usaremos `Nginx` como proxy inverso, asi nuestra URL de la app `Adminer` sería:
 
@@ -147,7 +147,7 @@ WordPress:
 http://localhost
 ```
 
-![localhost_nginx_http.PNG](C:\LABO\vagrant\DOCKER\docker-compose_WordPress_Aminer_Nginx\_images\localhost_nginx_http.PNG)
+![localhost_nginx_http.PNG](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/localhost_nginx_http.PNG)
 
 Adminer:
 
@@ -155,7 +155,7 @@ Adminer:
 http://localhost/adminer
 ```
 
-![localhost_nginx_http_adminer.PNG](C:\LABO\vagrant\DOCKER\docker-compose_WordPress_Aminer_Nginx\_images\localhost_nginx_http_adminer.PNG)
+![localhost_nginx_http_adminer.PNG](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/localhost_nginx_http_adminer.PNG)
 
 Como hemos citado anteriormente, para configurar nuestro contenedor con el servidor `nginx` como proxy inverso, hemos usado un punto de montaje `Bind`. Lo hemos declarado en nuestro fichero `docker-compose.yaml` de la siguiente forma:
 
@@ -1005,11 +1005,11 @@ https://adminer
 
 Nuestro navegador nos advertirá que el sitio web no es de confianza como hemos comentado ya que estamos usando un certificado autofirmado.
 
-![warning_certificado.PNG](C:\LABO\vagrant\DOCKER\docker-compose_WordPress_Aminer_Nginx\_images\warning_certificado.PNG)
+![warning_certificado.PNG](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/warning_certificado.PNG)
 
 Aceptamos y continuamos.
 
-![adminer_https.PNG](C:\LABO\vagrant\DOCKER\docker-compose_WordPress_Aminer_Nginx\_images\adminer_https.PNG)
+![adminer_https.PNG](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/adminer_https.PNG)
 
 ### Configuración multisite de `WordPress`
 
@@ -1306,15 +1306,15 @@ Entradas en el fichero `/etc/hosts`:
 
 Conectamos a `https://adminer` y como podemos ver estamos gestionando el servicio `db` y vemos nuestras 2 BBDD `wordpress` y `wordpress2`:
 
-![adminer_fin.png](C:\LABO\vagrant\DOCKER\docker-compose_WordPress_Aminer_Nginx\_images\adminer_fin.png)
+![adminer_fin.png](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/adminer_fin.png)
 
 Conectamos a `https://wordpress`:
 
-![wordpress_fin.png](C:\LABO\vagrant\DOCKER\docker-compose_WordPress_Aminer_Nginx\_images\wordpress_fin.png)
+![wordpress_fin.png](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/wordpress_fin.png)
 
 Conectamos a `https://wordpress2`:
 
-![wordpress2_fin.png](C:\LABO\vagrant\DOCKER\docker-compose_WordPress_Aminer_Nginx\_images\wordpress2_fin.png)
+![wordpress2_fin.png](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/wordpress2_fin.png)
 
 ### BONUS..... 😜
 
@@ -1434,7 +1434,7 @@ Nos conectamos a nuestro servicio `Adminer`
 https://adminer
 ```
 
-![adminer_postgre.png](C:\LABO\vagrant\DOCKER\docker-compose_WordPress_Aminer_Nginx\_images\adminer_postgre.png)
+![adminer_postgre.png](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/adminer_postgre.png)
 
 Como se ve en la captura, seleccionamos el `Motor de base de datos`, `Servidor` que en este caso será la IP `bridge` que configuramos en el fichero `pg_hba.conf` de `PostgreSQL` y por último `Usuario` y `Contraseña`.
 
@@ -1446,7 +1446,7 @@ Como se ve en la captura, seleccionamos el `Motor de base de datos`, `Servidor` 
 
 Ahora, verificamos que estamos conectados a nuestra BD `Postgre` llamada `Pruebas` en nuestro `Host`.
 
-![adminer_postgre_check.png](C:\LABO\vagrant\DOCKER\docker-compose_WordPress_Aminer_Nginx\_images\adminer_postgre_check.png)
+![adminer_postgre_check.png](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/adminer_postgre_check.png)
 
 ## Author Information
 
