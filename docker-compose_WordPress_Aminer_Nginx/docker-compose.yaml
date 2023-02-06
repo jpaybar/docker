@@ -1,0 +1,83 @@
+version: '3.7'
+
+services:
+  db:
+    image: mariadb
+    secrets:
+      - mysql_root_password
+      - mysql_database
+      - mysql_user
+      - mysql_password
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+      MYSQL_DATABASE_FILE: /run/secrets/mysql_database
+      MYSQL_USER_FILE: /run/secrets/mysql_user
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+    volumes:
+      - db:/var/lib/mysql
+      - ./services/db/init:/docker-entrypoint-initdb.d
+      - ./services/db/backup:/home/backup
+
+  wp:
+    image: wordpress
+    secrets:
+      - mysql_database
+      - mysql_user
+      - mysql_password
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME_FILE: /run/secrets/mysql_database
+      WORDPRESS_DB_USER_FILE: /run/secrets/mysql_user
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/mysql_password
+    volumes:
+      - wp:/var/www/html
+      - ./services/wp/backup:/home/backup
+      
+  wp2:
+    image: wordpress
+    secrets:
+      - mysql_database2
+      - mysql_user
+      - mysql_password
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME_FILE: /run/secrets/mysql_database2
+      WORDPRESS_DB_USER_FILE: /run/secrets/mysql_user
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/mysql_password
+    volumes:
+      - wp2:/var/www/html
+      - ./services/wp2/backup:/home/backup
+
+  adminer:
+    image: adminer
+
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./services/nginx:/etc/nginx/conf.d
+      - ./services/nginx/certs:/etc/nginx/certs
+    depends_on:
+      - wp
+      - wp2
+      - adminer
+
+volumes:
+  db:
+  wp:      
+  wp2:           
+
+secrets:
+  mysql_root_password:
+    file: ./secrets/mysql_root_password
+  mysql_database:
+    file: ./secrets/mysql_database
+  mysql_database2:
+    file: ./secrets/mysql_database2
+  mysql_user:
+    file: ./secrets/mysql_user
+  mysql_password:
+    file: ./secrets/mysql_password
+
