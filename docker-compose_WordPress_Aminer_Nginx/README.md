@@ -1451,5 +1451,7 @@ Ahora, verificamos que estamos conectados a nuestra BD `Postgre` llamada `Prueba
 ## Author Information
 
 Juan Manuel Payán Barea    (IT Technician) [st4rt.fr0m.scr4tch@gmail.com](mailto:st4rt.fr0m.scr4tch@gmail.com)
+
 [jpaybar (Juan M. Payán Barea) · GitHub](https://github.com/jpaybar)
+
 https://es.linkedin.com/in/juanmanuelpayan
