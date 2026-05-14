@@ -6,11 +6,13 @@ st4rt.fr0m.scr4tch@gmail.com
 
 En este tutorial vamos a mostrar como realizar un despliegue de `WordPress` multisite para un entorno de desarrollo, por lo tanto necesitaremos levantar un contenedor con `MySQL` (en este caso `MariaDB`), también haremos uso de `Adminer` para tener un gestor gráfico de BBDD y usaremos el servidor web `Nginx` como proxy inverso para simplificar las URL's evitando escribir puertos y securizando las conexiones con https.
 
+> **NOTA:** En versiones modernas de Docker (v20.10+) el comando `docker-compose` 
+> está deprecado y sustituido por `docker compose` (sin guión), integrado 
+> directamente en Docker CLI como plugin.
+
 ### Ejemplo de `docker-compose.yaml` para un despliegue básico
 
 ```yaml
-version: '3.7'
-
 services:
   db:
     image: mariadb
@@ -46,7 +48,7 @@ podremos acceder a nuestro `WordPress` en la URL:
 http://localhost
 ```
 
-![localhost.PNG](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/localhost.PNG)
+![localhost.PNG](_images/localhost.PNG)
 
 Igualmente para `Adminer` en la URL:
 
@@ -54,7 +56,7 @@ Igualmente para `Adminer` en la URL:
 http://localhost:8000
 ```
 
-![localhost_8000.PNG](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/localhost_8000.PNG)
+![localhost_8000.PNG](_images/localhost_8000.PNG)
 
 Como podemos observar tanto el acceso a `WordPress` como a `Adminer` no estan securizados, además de tener que escribir en la URL el puerto. Para simplificar el acceso usaremos `Nginx` como proxy inverso, asi nuestra URL de la app `Adminer` sería:
 
@@ -73,8 +75,6 @@ Levantamos un contenedor con `Nginx`, aunque aún seguiremos accediendo via `htt
 Nuestro fichero `docker-compose.yaml` quedaría de la siguiente forma:
 
 ```yaml
-version: '3.7'
-
 services:
   db:
     image: mariadb
@@ -147,7 +147,7 @@ WordPress:
 http://localhost
 ```
 
-![localhost_nginx_http.PNG](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/localhost_nginx_http.PNG)
+![localhost_nginx_http.PNG](_images/localhost_nginx_http.PNG)
 
 Adminer:
 
@@ -155,7 +155,7 @@ Adminer:
 http://localhost/adminer
 ```
 
-![localhost_nginx_http_adminer.PNG](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/localhost_nginx_http_adminer.PNG)
+![localhost_nginx_http_adminer.PNG](_images/localhost_nginx_http_adminer.PNG)
 
 Como hemos citado anteriormente, para configurar nuestro contenedor con el servidor `nginx` como proxy inverso, hemos usado un punto de montaje `Bind`. Lo hemos declarado en nuestro fichero `docker-compose.yaml` de la siguiente forma:
 
@@ -312,8 +312,6 @@ El archivo `docker-compose.override.yaml` nos permite agregar o anular configura
 Nuestro archivo `docker-compose.override.yaml` quedaría de la siguiente forma:
 
 ```yaml
-version: '3.7'
-
 services:
   db:
     volumes:
@@ -373,8 +371,6 @@ Opcionalmente, podemos usar la opción -f para especificar un archivo o archivos
 El fichero quedaría de la siguiente forma:
 
 ```yaml
-version: '3.7'
-
 services:
   db:
     volumes:
@@ -435,8 +431,6 @@ Algo que se suele hacer también con la apliación `WordPress` es usar puntos de
 Para realizar esto, volveremos a hacer uso ficheros `docker-compose` adicionales al principal, en este caso lo llamaremos `docker-compose-backup.yaml` y el código será el siguiente:
 
 ```yaml
-version: '3.7'
-
 services:
   db:
     volumes:
@@ -514,8 +508,6 @@ docker exec -it wordpress-db-1 /bin/bash
 Una vez dentro del container usaremos la herramienta `mysqldump` para volcar el contenido de la BD `wordpress` en el directorio `/home/backup` del container. Nos pedirá la contraseña que especificamos en nuestor fichero `docker-compose.yaml` (rootpassword)
 
 ```yaml
-version: '3.7'
-
 services:
   db:
     image: mariadb
@@ -628,8 +620,6 @@ Una opción sería mover información sensible o cualquier otro dato de las vari
 Vamos a ver como quedaría nuestro fichero `docker-compose.yaml` y los ficheros que contendrán las variables de entorno en la raiz de nuestro directorio de proyecto.
 
 ```yaml
-version: '3.7'
-
 services:
   db:
     image: mariadb
@@ -679,8 +669,6 @@ Crearemos un directorio llamado `secrets` en la carpeta raíz del proyecto y den
 La estructura del fichero `docker-compose.yaml` sería más o menos así:
 
 ```yaml
-version: '3.7'
-
 services:
   db:
     image: mariadb
@@ -737,8 +725,6 @@ Adicionalmente, podemos usar las variables de entorno junto con los `secrets`. E
 Nuestro fichero `docker-compose.yaml` quedaría de la siguiente forma:
 
 ```yaml
-version: '3.7'
-
 services:
   db:
     image: mariadb
@@ -821,13 +807,13 @@ Para hacer uso del protocolo HTTPS y hacer que las peticiones a la aplicación d
 **Como no disponemos de un dominio público, para mayor comodidad a la hora de escribir la URL y como hemos declarado en el fichero de configuración de `nginx` la directiva `server_name`, editaremos el fichero `/etc/hosts` (en windows `c:\Windows\System32\Drivers\etc\hosts`) y añadiremos las siguientes entradas:**
 
 ```
-192.168.1.10    wordpress
-192.168.1.10    adminer
+127.0.0.1    wordpress
+127.0.0.1    adminer
 ```
 
 Lo primero que haremos será crear un directorio llamado `certs` en la ruta `./services/nginx/certs` de nuestra carpeta de proyecto, dentro de ella añadiremos los certificados y posteriormente declararemos un punto de montaje `Bind` en nuestro fichero `docker-compose.yaml` para volcar la configuración dentro del container `nginx`.
 
-Para crear nuestro certificado autofirmado haremos uso de la utilidad `openssl`, si ejecutamos el siguiente comando nos creará una clave privada `.key` y el certificado autofirmado `.crt` en el directorio actual, en este caso el que hemos creado para tal fina (`./services/nginx/certs`):
+Para crear nuestro certificado autofirmado haremos uso de la utilidad `openssl`, si ejecutamos el siguiente comando nos creará una clave privada `.key` y el certificado autofirmado `.crt` en el directorio actual, en este caso el que hemos creado para tal fin (`./services/nginx/certs`):
 
 ```bash
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./private.key -out ./certificate.crt
@@ -932,8 +918,6 @@ server {
 Por último nuestro fichero `docker-compose.yaml` quedaría de la siguiente forma:
 
 ```yaml
-version: '3.7'
-
 services:
   db:
     image: mariadb
@@ -1005,11 +989,11 @@ https://adminer
 
 Nuestro navegador nos advertirá que el sitio web no es de confianza como hemos comentado ya que estamos usando un certificado autofirmado.
 
-![warning_certificado.PNG](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/warning_certificado.PNG)
+![warning_certificado.PNG](_images/warning_certificado.PNG)
 
 Aceptamos y continuamos.
 
-![adminer_https.PNG](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/adminer_https.PNG)
+![adminer_https.PNG](_images/adminer_https.PNG)
 
 ### Configuración multisite de `WordPress`
 
@@ -1019,7 +1003,7 @@ En el enunciado de este tutorial, también citabamos la configuración de un pro
 
 Basicamente, dichas configuraciones se centran en la modificación del fichero `wp-config.php` de `WordPress` como se puede ver en su web.
 
-Para una información ver la documentación oficial:
+Para una información más detallada, ver la documentación oficial:
 
 [Installing Multiple WordPress Instances &#8211; WordPress.org Documentation](https://wordpress.org/documentation/article/installing-multiple-blogs/)
 
@@ -1130,8 +1114,6 @@ vagrant@masterVM:~/wordpress$ tree
 Estructura del fichero `docker-compose.yaml`:
 
 ```yaml
-version: '3.7'
-
 services:
   db:
     image: mariadb
@@ -1299,22 +1281,22 @@ server {
 Entradas en el fichero `/etc/hosts`:
 
 ```
-192.168.1.10    wordpress
-192.168.1.10    wordpress2
-192.168.1.10    adminer
+127.0.0.1    wordpress
+127.0.0.1    wordpress2
+127.0.0.1    adminer
 ```
 
 Conectamos a `https://adminer` y como podemos ver estamos gestionando el servicio `db` y vemos nuestras 2 BBDD `wordpress` y `wordpress2`:
 
-![adminer_fin.png](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/adminer_fin.png)
+![adminer_fin.png](_images/adminer_fin.png)
 
 Conectamos a `https://wordpress`:
 
-![wordpress_fin.png](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/wordpress_fin.png)
+![wordpress_fin.png](_images/wordpress_fin.png)
 
 Conectamos a `https://wordpress2`:
 
-![wordpress2_fin.png](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/wordpress2_fin.png)
+![wordpress2_fin.png](_images/wordpress2_fin.png)
 
 ### BONUS..... 😜
 
@@ -1434,7 +1416,7 @@ Nos conectamos a nuestro servicio `Adminer`
 https://adminer
 ```
 
-![adminer_postgre.png](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/adminer_postgre.png)
+![adminer_postgre.png](_images/adminer_postgre.png)
 
 Como se ve en la captura, seleccionamos el `Motor de base de datos`, `Servidor` que en este caso será la IP `bridge` que configuramos en el fichero `pg_hba.conf` de `PostgreSQL` y por último `Usuario` y `Contraseña`.
 
@@ -1442,11 +1424,9 @@ Como se ve en la captura, seleccionamos el `Motor de base de datos`, `Servidor` 
 
 **Para poder conectarnos desde un equipo que no sea nuestro `Host` la cuenta de usuario o Rol de `PostgreSQL` debe de tener contraseña, en caso contrario se nos mostrará un error o advertencia informandonos de ello.**
 
-
-
 Ahora, verificamos que estamos conectados a nuestra BD `Postgre` llamada `Pruebas` en nuestro `Host`.
 
-![adminer_postgre_check.png](https://github.com/jpaybar/Docker/blob/main/docker-compose_WordPress_Aminer_Nginx/_images/adminer_postgre_check.png)
+![adminer_postgre_check.png](_images/adminer_postgre_check.png)
 
 ## Author Information
 
